@@ -1,4 +1,5 @@
 #include <Arduino.h>
+#include <ESP8266WiFi.h>
 
 // Example testing sketch for various DHT humidity/temperature sensors
 // Written by ladyada, public domain
@@ -35,7 +36,23 @@ void setup() {
   Serial.begin(9600);
   Serial.println(F("DHTxx test!"));
 
+  // Start temperature sensor.
   dht.begin();
+
+  // Connect to network.
+  //TODO: Change this to be your network address.
+  WiFi.begin("SSID", "password");
+
+  Serial.print("Connecting to wifi");
+  while (WiFi.status() != WL_CONNECTED)
+  {
+    delay(500);
+    Serial.print(".");
+  }
+  Serial.println();
+
+  Serial.print("Connected, IP address: ");
+  Serial.println(WiFi.localIP());
 }
 
 void loop() {
