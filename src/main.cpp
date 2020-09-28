@@ -62,7 +62,7 @@ char data[100];
 void loop()
 {
   // Wait a few seconds between measurements.
-  delay(2000);
+  delay(5000);
 
   // Reading temperature or humidity takes about 250 milliseconds!
   // Sensor readings may also be up to 2 seconds 'old' (its a very slow sensor)
@@ -94,9 +94,9 @@ void loop()
   secureClient.setInsecure();
   Serial.print("[HTTP] begin...\n");
   //TODO: Change this to be your API address.
-  if (https.begin(secureClient, "xxxxx.execute-api.us-east-1.amazonaws.com", 443, "/", true))
+  if (https.begin(secureClient, "xxxxxxxx.execute-api.eu-west-2.amazonaws.com", 443, "/dev/temp", true))
   {
-    sprintf(data, "{\"temp\": %f}", t);
+    sprintf(data, "{\"t\": %f, \"h\": %f}", t, h);
     int code = https.POST(data);
     String string = https.getString();
     Serial.println(code);
