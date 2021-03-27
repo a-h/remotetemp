@@ -11,7 +11,9 @@
 
 #include "DHT.h"
 
-#define DHTPIN 2 // Digital pin connected to the DHT sensor
+// Pin 4 is actually D2.
+// Pin D4 is digital pin 4, and also the built-in LED light.
+#define DHTPIN D4 // Digital pin connected to the DHT sensor
 // Feather HUZZAH ESP8266 note: use pins 3, 4, 5, 12, 13 or 14 --
 // Pin 15 can work but DHT must be disconnected during program upload.
 
@@ -42,8 +44,8 @@ void setup()
   dht.begin();
 
   // Connect to network.
-  //TODO: Change this to be your network address.
-  WiFi.begin("SSID", "password");
+  //TODO: Update this to your SSID.
+  WiFi.begin("SSID", "pwd");
 
   Serial.print("Connecting to wifi");
   while (WiFi.status() != WL_CONNECTED)
@@ -71,6 +73,14 @@ void loop()
   float t = dht.readTemperature();
 
   // Check if any reads failed and exit early (to try again).
+  if (isnan(h))
+  {
+    Serial.println(F("Failed to read h."));
+  }
+  if (isnan(t))
+  {
+    Serial.println(F("Failed to read t."));
+  }
   if (isnan(h) || isnan(t))
   {
     Serial.println(F("Failed to read from DHT sensor!"));
@@ -94,9 +104,10 @@ void loop()
   secureClient.setInsecure();
   Serial.print("[HTTP] begin...\n");
   //TODO: Change this to be your API address.
-  if (https.begin(secureClient, "xxxxxxxx.execute-api.eu-west-2.amazonaws.com", 443, "/dev/temp", true))
+  if (https.begin(secureClient, "xxxxxxxx.execute-api.eu-west-1.amazonaws.com", 443, "/dev/temperature/log", true))
   {
     sprintf(data, "{\"t\": %f, \"h\": %f}", t, h);
+    https.addHeader("Content-Type", "application/json");
     int code = https.POST(data);
     String string = https.getString();
     Serial.println(code);

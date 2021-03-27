@@ -4,7 +4,14 @@ provider:
   name: aws
   runtime: nodejs12.x
   stage: dev
+  #TODO: You may need to change this region.
   region: eu-west-2
+  #TODO: If you're using an AWS role that requires a permission boundary, add it here.
+  #iam:
+  #  role:
+  #    permissionBoundary: arn:aws:iam::534900169478:policy/ScopePermissions
+  #TODO: You might need to share one bucket for all Serverless projects if you've ran out of S3 buckets in your account.
+  #deploymentBucket: my.${self:provider.region}.serverless.deploys
 
 # you can add statements to the Lambda function's IAM Role here
 #  iamRoleStatements:
