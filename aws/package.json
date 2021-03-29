@@ -9,6 +9,9 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "serverless": "^2.3.0"
+    "serverless": "^2.31.0"
+  },
+  "dependencies": {
+    "aws-embedded-metrics": "^2.0.4"
   }
 }
